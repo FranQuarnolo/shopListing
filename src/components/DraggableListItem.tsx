@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Checkbox, Input, Typography } from 'antd';
+import { Checkbox, Input, Typography, InputRef } from 'antd';
 import { ShoppingItem } from '../types';
 
 const { Text } = Typography;
@@ -37,7 +37,7 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({ item, onTo
 
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(item.name);
-    const inputRef = useRef<any>(null);
+    const inputRef = useRef<InputRef>(null);
 
     useEffect(() => {
         if (isEditing) {

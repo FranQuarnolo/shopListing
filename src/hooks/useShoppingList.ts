@@ -92,6 +92,23 @@ export const useShoppingList = () => {
         });
     };
 
+    const deleteList = (id: string) => {
+        if (window.confirm('¿Estás seguro de que quieres eliminar esta lista?')) {
+            setHistory((prev) => prev.filter((list) => list.id !== id));
+        }
+    };
+
+    const duplicateList = (list: SavedList) => {
+        if (window.confirm(`¿Quieres agregar los ${list.items.length} ítems de "${list.title}" a tu lista actual?`)) {
+            const newItems = list.items.map((item) => ({
+                ...item,
+                id: uuidv4(),
+                purchased: false,
+            }));
+            setCurrentList((prev) => [...prev, ...newItems]);
+        }
+    };
+
     return {
         currentList,
         history,
@@ -102,5 +119,7 @@ export const useShoppingList = () => {
         reorderItems,
         saveList,
         startNewList,
+        deleteList,
+        duplicateList,
     };
 };

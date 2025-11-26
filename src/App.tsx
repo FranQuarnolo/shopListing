@@ -20,6 +20,8 @@ function App() {
         reorderItems,
         saveList,
         startNewList,
+        deleteList,
+        duplicateList,
     } = useShoppingList();
 
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -95,6 +97,8 @@ function App() {
                     onClose={() => setDrawerOpen(false)}
                     history={history}
                     onNewList={startNewList}
+                    onDeleteList={deleteList}
+                    onDuplicateList={duplicateList}
                 />
 
                 <SaveListModal

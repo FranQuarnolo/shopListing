@@ -60,17 +60,11 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({ item, onTo
 
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <span
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={(e) => e.stopPropagation()}
-                style={{ display: 'inline-flex', marginRight: '12px' }}
-            >
-                <Checkbox
-                    checked={item.purchased}
-                    onChange={() => onToggle(item.id)}
-                    style={{ transform: 'scale(1.2)' }}
-                />
-            </span>
+            <Checkbox
+                checked={item.purchased}
+                onChange={() => onToggle(item.id)}
+                style={{ marginRight: '12px', transform: 'scale(1.2)' }}
+            />
 
             <div style={{ flex: 1, textAlign: 'left' }}>
                 {isEditing ? (

@@ -4,7 +4,6 @@ import {
     DndContext,
     closestCenter,
     KeyboardSensor,
-    PointerSensor,
     useSensor,
     useSensors,
     DragEndEvent,
@@ -42,8 +41,11 @@ export const ShoppingList: React.FC<ShoppingListProps> = ({
     const [activeId, setActiveId] = useState<string | null>(null);
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(MouseSensor),
+        useSensor(MouseSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        }),
         useSensor(TouchSensor, {
             activationConstraint: {
                 delay: 250,

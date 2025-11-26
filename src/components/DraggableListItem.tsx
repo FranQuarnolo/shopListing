@@ -60,12 +60,17 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({ item, onTo
 
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Checkbox
-                checked={item.purchased}
-                onChange={() => onToggle(item.id)}
-                onClick={(e) => e.stopPropagation()} // Prevent drag start on checkbox
-                style={{ marginRight: '12px', transform: 'scale(1.2)' }}
-            />
+            <span
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
+                style={{ display: 'inline-flex', marginRight: '12px' }}
+            >
+                <Checkbox
+                    checked={item.purchased}
+                    onChange={() => onToggle(item.id)}
+                    style={{ transform: 'scale(1.2)' }}
+                />
+            </span>
 
             <div style={{ flex: 1, textAlign: 'left' }}>
                 {isEditing ? (

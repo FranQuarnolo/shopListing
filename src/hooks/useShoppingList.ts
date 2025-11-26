@@ -72,12 +72,34 @@ export const useShoppingList = () => {
         }
     };
 
+    const editItem = (id: string, newName: string) => {
+        setCurrentList((prev) =>
+            prev.map((item) => (item.id === id ? { ...item, name: newName } : item))
+        );
+    };
+
+    const reorderItems = (activeId: string, overId: string) => {
+        setCurrentList((prev) => {
+            const oldIndex = prev.findIndex((item) => item.id === activeId);
+            const newIndex = prev.findIndex((item) => item.id === overId);
+
+            if (oldIndex === -1 || newIndex === -1) return prev;
+
+            const newItems = [...prev];
+            const [movedItem] = newItems.splice(oldIndex, 1);
+            newItems.splice(newIndex, 0, movedItem);
+            return newItems;
+        });
+    };
+
     return {
         currentList,
         history,
         addItem,
         toggleItem,
         removeItem,
+        editItem,
+        reorderItems,
         saveList,
         startNewList,
     };

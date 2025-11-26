@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Layout, Button, ConfigProvider, theme, FloatButton, Typography } from 'antd';
-import { MenuOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons';
+import { Layout, Button, ConfigProvider, theme, Typography } from 'antd';
+import { MenuOutlined, SaveOutlined } from '@ant-design/icons';
 import { useShoppingList } from './hooks/useShoppingList';
 import { ShoppingList } from './components/ShoppingList';
 import { HistoryDrawer } from './components/HistoryDrawer';
-import { AddItemModal } from './components/AddItemModal';
 import { SaveListModal } from './components/SaveListModal';
 
 const { Header, Content } = Layout;
@@ -17,12 +16,13 @@ function App() {
         addItem,
         toggleItem,
         removeItem,
+        editItem,
+        reorderItems,
         saveList,
         startNewList,
     } = useShoppingList();
 
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [addModalOpen, setAddModalOpen] = useState(false);
     const [saveModalOpen, setSaveModalOpen] = useState(false);
 
     // Calculate estimated total if we had prices, but for now just 0 or sum of items if we added price field.
@@ -75,7 +75,7 @@ function App() {
                         icon={<SaveOutlined style={{ fontSize: '20px' }} />}
                         onClick={() => setSaveModalOpen(true)}
                         disabled={currentList.length === 0}
-                        style={{ color: currentList.length > 0 ? '#1677ff' : '#666' }}
+                        style={{ color: currentList.length > 0 ? '#9FA8DA' : '#666' }}
                     />
                 </Header>
 
@@ -84,28 +84,17 @@ function App() {
                         items={currentList}
                         onToggle={toggleItem}
                         onRemove={removeItem}
+                        onEdit={editItem}
+                        onReorder={reorderItems}
+                        onAdd={addItem}
                     />
                 </Content>
-
-                <FloatButton
-                    type="primary"
-                    shape="circle"
-                    icon={<PlusOutlined />}
-                    onClick={() => setAddModalOpen(true)}
-                    style={{ right: 24, bottom: 24, width: 60, height: 60 }}
-                />
 
                 <HistoryDrawer
                     open={drawerOpen}
                     onClose={() => setDrawerOpen(false)}
                     history={history}
                     onNewList={startNewList}
-                />
-
-                <AddItemModal
-                    open={addModalOpen}
-                    onClose={() => setAddModalOpen(false)}
-                    onAdd={addItem}
                 />
 
                 <SaveListModal

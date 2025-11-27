@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { ShoppingItem, SavedList } from '../types';
+import Swal from 'sweetalert2';
 
 const STORAGE_KEY_CURRENT = 'shopListing_current';
 const STORAGE_KEY_HISTORY = 'shopListing_history';
@@ -67,9 +68,30 @@ export const useShoppingList = () => {
     };
 
     const startNewList = () => {
-        if (window.confirm('¿Estás seguro de querer empezar una nueva lista? Se borrarán los ítems actuales no guardados.')) {
-            setCurrentList([]);
-        }
+        Swal.fire({
+            title: '¿Nueva lista?',
+            text: "Se borrarán los ítems actuales no guardados.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, nueva lista',
+            cancelButtonText: 'Cancelar',
+            background: '#1f1f1f',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setCurrentList([]);
+                Swal.fire({
+                    title: '¡Lista creada!',
+                    icon: 'success',
+                    timer: 1000,
+                    showConfirmButton: false,
+                    background: '#1f1f1f',
+                    color: '#fff'
+                });
+            }
+        });
     };
 
     const editItem = (id: string, newName: string) => {
@@ -93,20 +115,78 @@ export const useShoppingList = () => {
     };
 
     const deleteList = (id: string) => {
-        if (window.confirm('¿Estás seguro de que quieres eliminar esta lista?')) {
-            setHistory((prev) => prev.filter((list) => list.id !== id));
-        }
+        Swal.fire({
+            title: '¿Eliminar lista?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            background: '#1f1f1f',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setHistory((prev) => prev.filter((list) => list.id !== id));
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    text: 'La lista ha sido eliminada.',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    background: '#1f1f1f',
+                    color: '#fff'
+                });
+            }
+        });
     };
 
     const duplicateList = (list: SavedList) => {
-        if (window.confirm(`¿Quieres agregar los ${list.items.length} ítems de "${list.title}" a tu lista actual?`)) {
-            const newItems = list.items.map((item) => ({
-                ...item,
-                id: uuidv4(),
-                purchased: false,
-            }));
-            setCurrentList((prev) => [...prev, ...newItems]);
-        }
+        Swal.fire({
+            title: '¿Cargar ítems?',
+            text: `Se agregarán los ítems de "${list.title}" a tu lista actual.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cargar',
+            cancelButtonText: 'Cancelar',
+            background: '#1f1f1f',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const currentNames = new Set(currentList.map(i => i.name.toLowerCase().trim()));
+                const newItems = list.items
+                    .filter(item => !currentNames.has(item.name.toLowerCase().trim()))
+                    .map((item) => ({
+                        ...item,
+                        id: uuidv4(),
+                        purchased: false,
+                    }));
+
+                if (newItems.length === 0) {
+                    Swal.fire({
+                        title: 'Info',
+                        text: 'Todos los ítems ya están en tu lista.',
+                        icon: 'info',
+                        background: '#1f1f1f',
+                        color: '#fff'
+                    });
+                    return;
+                }
+
+                setCurrentList((prev) => [...prev, ...newItems]);
+
+                Swal.fire({
+                    title: '¡Cargados!',
+                    text: `Se agregaron ${newItems.length} ítems nuevos.`,
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    background: '#1f1f1f',
+                    color: '#fff'
+                });
+            }
+        });
     };
 
     return {

@@ -13,12 +13,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+html,
+body,
+#root {
+  height: 100%;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  font-size: 16px;
 }
 
 #root {
@@ -26,4 +34,18 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
+}
+
+/* SweetAlert2 Mobile Overrides */
+div:where(.swal2-container) .swal2-popup {
+  font-size: 1.1rem !important;
+  padding: 1.5em !important;
+}
+
+div:where(.swal2-container) .swal2-title {
+  font-size: 1.8rem !important;
+}
+
+div:where(.swal2-container) .swal2-html-container {
+  font-size: 1.2rem !important;
 }

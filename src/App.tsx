@@ -50,7 +50,7 @@ function App() {
                 },
             }}
         >
-            <Layout style={{ minHeight: '100vh' }}>
+            <Layout style={{ height: '100%' }}>
                 <Header
                     style={{
                         display: 'flex',
@@ -58,9 +58,7 @@ function App() {
                         justifyContent: 'space-between',
                         padding: '0 16px',
                         background: '#141414',
-                        position: 'sticky',
-                        top: 0,
-                        zIndex: 10,
+                        borderBottom: '1px solid #303030',
                     }}
                 >
                     <Button
@@ -81,7 +79,7 @@ function App() {
                     />
                 </Header>
 
-                <Content style={{ padding: '16px', overflowY: 'auto' }}>
+                <Content style={{ padding: '16px', overflowY: 'auto', flex: 1 }}>
                     <ShoppingList
                         items={currentList}
                         onToggle={toggleItem}

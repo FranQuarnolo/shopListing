@@ -26,6 +26,18 @@ function App() {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [saveModalOpen, setSaveModalOpen] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const saved = localStorage.getItem('shopListing_theme');
+        return saved ? saved === 'dark' : true;
+    });
+
+    const toggleTheme = () => {
+        setIsDarkMode((prev) => {
+            const newMode = !prev;
+            localStorage.setItem('shopListing_theme', newMode ? 'dark' : 'light');
+            return newMode;
+        });
+    };
 
     // Calculate estimated total if we had prices, but for now just 0 or sum of items if we added price field.
     // Since we didn't add price to items yet, default total is 0.
@@ -43,31 +55,31 @@ function App() {
     return (
         <ConfigProvider
             theme={{
-                algorithm: theme.darkAlgorithm,
+                algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                 token: {
                     colorPrimary: '#9FA8DA',
                     borderRadius: 8,
                 },
             }}
         >
-            <Layout style={{ height: '100%' }}>
+            <Layout style={{ height: '100%', background: isDarkMode ? '#141414' : '#f5f5f5' }}>
                 <Header
                     style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '0 16px',
-                        background: '#141414',
-                        borderBottom: '1px solid #303030',
+                        background: isDarkMode ? '#141414' : '#fff',
+                        borderBottom: isDarkMode ? '1px solid #303030' : '1px solid #e0e0e0',
                     }}
                 >
                     <Button
                         type="text"
                         icon={<MenuOutlined style={{ fontSize: '20px' }} />}
                         onClick={() => setDrawerOpen(true)}
-                        style={{ color: '#fff' }}
+                        style={{ color: isDarkMode ? '#fff' : '#000' }}
                     />
-                    <Title level={4} style={{ margin: 0, color: '#fff' }}>
+                    <Title level={4} style={{ margin: 0, color: isDarkMode ? '#fff' : '#000' }}>
                         Lista del Super
                     </Title>
                     <Button
@@ -75,7 +87,7 @@ function App() {
                         icon={<SaveOutlined style={{ fontSize: '20px' }} />}
                         onClick={() => setSaveModalOpen(true)}
                         disabled={currentList.length === 0}
-                        style={{ color: currentList.length > 0 ? '#9FA8DA' : '#666' }}
+                        style={{ color: currentList.length > 0 ? '#9FA8DA' : (isDarkMode ? '#666' : '#ccc') }}
                     />
                 </Header>
 
@@ -97,6 +109,8 @@ function App() {
                     onNewList={startNewList}
                     onDeleteList={deleteList}
                     onDuplicateList={duplicateList}
+                    isDarkMode={isDarkMode}
+                    onToggleTheme={toggleTheme}
                 />
 
                 <SaveListModal

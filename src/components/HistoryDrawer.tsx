@@ -14,6 +14,8 @@ interface HistoryDrawerProps {
     onNewList: () => void;
     onDeleteList: (id: string) => void;
     onDuplicateList: (list: SavedList) => void;
+    isDarkMode: boolean;
+    onToggleTheme: () => void;
 }
 
 export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
@@ -23,6 +25,8 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
     onNewList,
     onDeleteList,
     onDuplicateList,
+    isDarkMode,
+    onToggleTheme,
 }) => {
     return (
         <Drawer
@@ -30,10 +34,10 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
             placement="left"
             onClose={onClose}
             open={open}
-            styles={{ body: { padding: 0 } }}
+            styles={{ body: { padding: 0, display: 'flex', flexDirection: 'column' } }}
             width="85%"
         >
-            <div style={{ padding: '16px', borderBottom: '1px solid #333' }}>
+            <div style={{ padding: '16px', borderBottom: isDarkMode ? '1px solid #333' : '1px solid #e0e0e0' }}>
                 <Button
                     type="primary"
                     block
@@ -48,7 +52,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                 </Button>
             </div>
 
-            <div style={{ padding: '16px' }}>
+            <div style={{ padding: '16px', flex: 1, overflowY: 'auto' }}>
                 {history.length === 0 ? (
                     <Text type="secondary" style={{ display: 'block', textAlign: 'center', marginTop: '20px' }}>
                         No tienes listas guardadas.
@@ -72,8 +76,8 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                             >
                                 <div style={{ marginBottom: '16px' }}>
                                     {list.items.map((item) => (
-                                        <div key={item.id} style={{ padding: '4px 0', borderBottom: '1px solid #303030' }}>
-                                            <Text style={{ color: item.purchased ? '#ffffff4d' : '#fff' }}>
+                                        <div key={item.id} style={{ padding: '4px 0', borderBottom: isDarkMode ? '1px solid #303030' : '1px solid #f0f0f0' }}>
+                                            <Text style={{ color: item.purchased ? (isDarkMode ? '#ffffff4d' : '#0000004d') : (isDarkMode ? '#fff' : '#000') }}>
                                                 {item.name}
                                             </Text>
                                         </div>
@@ -109,6 +113,15 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                         ))}
                     </Collapse>
                 )}
+            </div>
+
+            <div style={{ padding: '16px', borderTop: isDarkMode ? '1px solid #333' : '1px solid #e0e0e0', textAlign: 'center' }}>
+                <Button
+                    onClick={onToggleTheme}
+                    style={{ width: '100%' }}
+                >
+                    {isDarkMode ? '🌞 Cambiar a Modo Claro' : '🌙 Cambiar a Modo Oscuro'}
+                </Button>
             </div>
         </Drawer>
     );

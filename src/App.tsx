@@ -62,15 +62,19 @@ function App() {
                 },
             }}
         >
-            <Layout style={{ height: '100%', background: isDarkMode ? '#141414' : '#f5f5f5' }}>
+            <Layout style={{ height: '100%', background: isDarkMode ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)' : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
                 <Header
                     style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '0 16px',
-                        background: isDarkMode ? '#141414' : '#fff',
-                        borderBottom: isDarkMode ? '1px solid #303030' : '1px solid #e0e0e0',
+                        background: isDarkMode ? 'rgba(20, 20, 20, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+                        backdropFilter: 'blur(10px)',
+                        borderBottom: isDarkMode ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.05)',
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 10,
                     }}
                 >
                     <Button

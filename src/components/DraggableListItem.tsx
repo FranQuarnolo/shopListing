@@ -26,13 +26,15 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({ item, onTo
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.5 : 1,
-        marginBottom: '8px',
-        background: '#1f1f1f',
-        padding: '12px 16px',
-        borderRadius: '8px',
+        marginBottom: '12px',
+        background: 'rgba(30, 30, 30, 0.8)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        padding: '16px',
+        borderRadius: '16px',
         display: 'flex',
         alignItems: 'center',
-        touchAction: 'none', // Important for touch dragging
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     };
 
     const [isEditing, setIsEditing] = useState(false);

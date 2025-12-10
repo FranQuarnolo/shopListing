@@ -19,15 +19,20 @@ export const QuickInput: React.FC<QuickInputProps> = ({ onAdd }) => {
     return (
         <div style={{
             position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: '16px',
-            background: '#141414',
-            borderTop: '1px solid #303030',
+            bottom: '24px',
+            left: '16px',
+            right: '16px',
+            padding: '12px',
+            background: 'rgba(20, 20, 20, 0.8)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
             display: 'flex',
-            gap: '8px',
-            zIndex: 100
+            gap: '12px',
+            zIndex: 100,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+            maxWidth: '600px',
+            margin: '0 auto'
         }}>
             <Input
                 placeholder="Agregar producto..."

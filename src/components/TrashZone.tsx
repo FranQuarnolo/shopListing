@@ -1,35 +1,38 @@
 import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
-import { DeleteOutlined } from '@ant-design/icons';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Trash2 } from 'lucide-react';
+import { cn } from '../lib/utils';
 
-export const TrashZone: React.FC<{ active: boolean }> = ({ active }) => {
-    const { setNodeRef, isOver } = useDroppable({
-        id: 'trash-zone',
-    });
+export const TrashZone: React.FC<{ active: boolean; isDark: boolean }> = ({ active, isDark }) => {
+  const { setNodeRef, isOver } = useDroppable({ id: 'trash-zone' });
 
-    if (!active) return null;
-
-    return (
-        <div
-            ref={setNodeRef}
-            style={{
-                position: 'fixed',
-                bottom: '80px', // Above the input
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '60px',
-                height: '60px',
-                borderRadius: '50%',
-                backgroundColor: isOver ? '#ff4d4f' : '#ffccc7',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 90,
-                transition: 'all 0.2s',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-            }}
+  return (
+    <AnimatePresence>
+      {active && (
+        <motion.div
+          ref={setNodeRef}
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: isOver ? 1.15 : 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.8 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          className={cn(
+            'fixed bottom-24 left-1/2 -translate-x-1/2 z-50',
+            'w-16 h-16 rounded-full flex items-center justify-center',
+            'shadow-xl transition-colors duration-150',
+            isOver
+              ? 'bg-red-500 shadow-red-500/40'
+              : isDark
+              ? 'bg-red-900/60 border-2 border-red-500/50'
+              : 'bg-red-100 border-2 border-red-300'
+          )}
         >
-            <DeleteOutlined style={{ fontSize: '24px', color: isOver ? '#fff' : '#ff4d4f' }} />
-        </div>
-    );
+          <Trash2
+            size={24}
+            className={cn(isOver ? 'text-white' : isDark ? 'text-red-400' : 'text-red-500')}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 };

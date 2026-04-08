@@ -6,7 +6,7 @@ Aplicación web de e-commerce enfocada en la visualización de productos y gesti
 
 ## 🚀 Demo
 
-> Agregar link si tenés deploy (Vercel, Netlify, etc.)
+> [Deploy](https://shop-listing.vercel.app/)
 
 ---
 

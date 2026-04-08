@@ -17,7 +17,7 @@ export const TrashZone: React.FC<{ active: boolean; isDark: boolean }> = ({ acti
           exit={{ opacity: 0, y: 20, scale: 0.8 }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           className={cn(
-            'fixed bottom-24 left-1/2 -translate-x-1/2 z-50',
+            'fixed bottom-24 left-0 right-0 mx-auto z-50',
             'w-16 h-16 rounded-full flex items-center justify-center',
             'shadow-xl transition-colors duration-150',
             isOver

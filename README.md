@@ -104,11 +104,6 @@ npm run dev
 - Backend propio
 
 ---
-## 📂 Estructura del Proyecto
-
-/src/components: Componentes atómicos y modulares.
-
-/src/hooks: Lógica de negocio extraída para facilitar el testing y la reutilización.
 
 ## 👨‍💻 Autor
 

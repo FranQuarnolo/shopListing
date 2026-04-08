@@ -287,7 +287,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
             </div>
 
             {/* Footer */}
-            <div className={cn('px-4 py-3 shrink-0 border-t', isDark ? 'border-white/10' : 'border-slate-200')}>
+            <div className={cn('px-4 pt-3 pb-4 shrink-0 border-t space-y-3', isDark ? 'border-white/10' : 'border-slate-200')}>
               <button
                 type="button"
                 onClick={onToggleTheme}
@@ -296,6 +296,21 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                 {isDark ? <Sun size={16} /> : <Moon size={16} />}
                 {isDark ? 'Modo Claro' : 'Modo Oscuro'}
               </button>
+
+              {/* Versión de la app — inyectada desde package.json en build time */}
+              <div className="flex items-center justify-between px-1">
+                <span className={cn('text-xs', isDark ? 'text-white/25' : 'text-slate-300')}>
+                  Lista del Super
+                </span>
+                <span className={cn(
+                  'text-xs font-mono px-2 py-0.5 rounded-full border',
+                  isDark
+                    ? 'text-white/30 border-white/10 bg-white/5'
+                    : 'text-slate-400 border-slate-200 bg-slate-50'
+                )}>
+                  v{__APP_VERSION__}
+                </span>
+              </div>
             </div>
           </motion.div>
         </>

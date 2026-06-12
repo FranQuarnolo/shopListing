@@ -19,7 +19,7 @@ import { useState, useCallback } from 'react';
  * @param initial - Valor inicial del estado
  * @returns objeto con: state, set, undo, redo, canUndo, canRedo
  */
-export function useUndoRedo<T>(initial: T) {
+export function useUndoRedo<T>(initial: T | (() => T)) {
   const [past, setPast] = useState<T[]>([]);
   const [present, setPresent] = useState<T>(initial);
   const [future, setFuture] = useState<T[]>([]);

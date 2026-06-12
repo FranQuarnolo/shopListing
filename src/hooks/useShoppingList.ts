@@ -19,33 +19,29 @@ import { useStorage } from './useStorage';
 import { useUndoRedo } from './useUndoRedo';
 
 export const useShoppingList = () => {
-  // useUndoRedo envuelve la lista actual para que cada cambio
-  // quede registrado y se pueda deshacer/rehacer
-  const { state: currentList, set: setList, undo, redo, canUndo, canRedo } = useUndoRedo<ShoppingItem[]>([]);
+  // Lee la lista desde localStorage una sola vez como valor inicial.
+  // Al pasarle una función, useUndoRedo (y useState internamente) la llama
+  // solo en el primer render — evita la carrera entre el efecto de guardado
+  // y el de carga que borraba la lista al abrir la app.
+  const { state: currentList, set: setList, undo, redo, canUndo, canRedo } = useUndoRedo<ShoppingItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('shopListing_current');
+      if (saved) return JSON.parse(saved) as ShoppingItem[];
+    } catch {
+      // JSON corrupto: arrancamos con lista vacía
+    }
+    return [];
+  });
 
   // useStorage maneja automáticamente la persistencia del historial
   const [history, setHistory] = useStorage<SavedList[]>('shopListing_history', []);
 
-  // Cada vez que cambia la lista actual, la guardamos en localStorage
-  // useEffect con dependencia [currentList] se ejecuta solo cuando cambia ese valor
+  // Cada vez que cambia la lista actual, la guardamos en localStorage.
+  // Como currentList ya se inicializó con el valor correcto, este efecto
+  // siempre escribe datos válidos (nunca [] por error de orden).
   useEffect(() => {
     localStorage.setItem('shopListing_current', JSON.stringify(currentList));
   }, [currentList]);
-
-  // Al montar el componente (solo una vez), recuperamos la lista del localStorage.
-  // El array vacío [] como dependencia hace que solo se ejecute al inicio.
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('shopListing_current');
-      if (saved) {
-        const parsed = JSON.parse(saved) as ShoppingItem[];
-        setList(parsed);
-      }
-    } catch {
-      // Si el JSON está corrupto, ignoramos el error y arrancamos con lista vacía
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // --- CRUD de ítems ---
 

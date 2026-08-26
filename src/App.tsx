@@ -192,15 +192,15 @@ function App() {
             <Redo2 size={18} />
           </button>
 
-          {/* Compartir lista por WhatsApp — disabled cuando la lista está vacía */}
+          {/* Compartir lista por WhatsApp — disabled cuando no hay pendientes (comprado no cuenta) */}
           <button
             type="button"
             onClick={shareList}
-            disabled={currentList.length === 0}
+            disabled={!currentList.some((item) => !item.purchased)}
             title="Compartir lista"
             className={cn(
               "p-2 rounded-xl transition-colors text-primary-400",
-              currentList.length > 0
+              currentList.some((item) => !item.purchased)
                 ? "hover:bg-primary-400/20"
                 : "opacity-25 cursor-not-allowed",
             )}

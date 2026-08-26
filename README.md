@@ -109,7 +109,7 @@ npm run dev
 - ✅ Marcar como comprado — los comprados se mueven al final automáticamente
 - ✅ Edición inline del nombre haciendo click sobre él (Enter confirma, Escape cancela)
 - ✅ Drag & drop para reordenar ítems o arrastrarlos a la papelera para eliminarlos
-- ✅ Compartir la lista por WhatsApp — usa el panel nativo de compartir del celular (o copia al portapapeles en desktop)
+- ✅ Compartir la lista por WhatsApp — solo los pendientes (los ya comprados no se incluyen); usa el panel nativo de compartir del celular o copia al portapapeles en desktop
 - ✅ Guardar lista al historial con título y monto total
 - ✅ Historial con búsqueda por nombre, ordenamiento y vista expandible por lista
 - ✅ Cargar ítems de una lista guardada a la lista activa (sin duplicados)

@@ -9,22 +9,16 @@ import { ShoppingItem } from '../types';
  * Arma el mensaje de texto que se comparte por WhatsApp a partir
  * de los ítems de la lista activa.
  *
- * Formato: título en negrita (sintaxis de WhatsApp: *texto*), pendientes
- * primero con checkbox vacío, comprados al final tachados (~texto~) para
- * no perder contexto de lo que ya se resolvió.
+ * Formato: título en negrita (sintaxis de WhatsApp: *texto*) seguido de
+ * los ítems pendientes con checkbox vacío. Los ya comprados (tachados en
+ * la UI) se excluyen a propósito — compartir solo tiene sentido para lo
+ * que todavía falta conseguir.
  */
 export function formatListForSharing(items: ShoppingItem[]): string {
   const pending = items.filter((i) => !i.purchased);
-  const purchased = items.filter((i) => i.purchased);
 
-  const lines = [`*🛒 Lista del Súper* (${items.length} ítems)`, ''];
-
+  const lines = [`*🛒 Lista del Súper* (${pending.length} ítems)`, ''];
   pending.forEach((item) => lines.push(`☐ ${item.name}`));
-
-  if (purchased.length > 0) {
-    lines.push('', `_Comprado (${purchased.length})_`);
-    purchased.forEach((item) => lines.push(`✅ ~${item.name}~`));
-  }
 
   return lines.join('\n');
 }

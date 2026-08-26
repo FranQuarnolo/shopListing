@@ -176,8 +176,9 @@ export const useShoppingList = () => {
    * Si no está disponible (ej: desktop), copia el texto al portapapeles.
    */
   const shareList = async () => {
-    if (currentList.length === 0) {
-      toast.info('No hay productos para compartir');
+    const hasPending = currentList.some((item) => !item.purchased);
+    if (!hasPending) {
+      toast.info('No hay productos pendientes para compartir');
       return;
     }
 

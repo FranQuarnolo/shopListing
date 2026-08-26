@@ -17,6 +17,7 @@ import { toast } from 'sonner';        // Notificaciones tipo "toast" no bloquea
 import { ShoppingItem, SavedList } from '../types';
 import { useStorage } from './useStorage';
 import { useUndoRedo } from './useUndoRedo';
+import { formatListForSharing } from '../lib/shareFormat';
 
 export const useShoppingList = () => {
   // Lee la lista desde localStorage una sola vez como valor inicial.
@@ -166,6 +167,37 @@ export const useShoppingList = () => {
     toast.success(`Se agregaron ${newItems.length} ítems`);
   };
 
+  // --- Compartir ---
+
+  /**
+   * Comparte la lista actual como texto.
+   * En celulares con soporte de Web Share API (navigator.share) abre el
+   * panel nativo de compartir (WhatsApp, Telegram, SMS, etc.).
+   * Si no está disponible (ej: desktop), copia el texto al portapapeles.
+   */
+  const shareList = async () => {
+    if (currentList.length === 0) {
+      toast.info('No hay productos para compartir');
+      return;
+    }
+
+    const message = formatListForSharing(currentList);
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ text: message });
+      } catch (err) {
+        // AbortError = el usuario cerró el panel de compartir sin elegir nada, no es un error real
+        if ((err as Error).name !== 'AbortError') {
+          toast.error('No se pudo compartir la lista');
+        }
+      }
+    } else {
+      await navigator.clipboard.writeText(message);
+      toast.success('Lista copiada al portapapeles');
+    }
+  };
+
   // --- Importar / Exportar ---
 
   /**
@@ -218,6 +250,7 @@ export const useShoppingList = () => {
     duplicateList,
     exportLists,
     importLists,
+    shareList,
     undo,
     redo,
     canUndo,

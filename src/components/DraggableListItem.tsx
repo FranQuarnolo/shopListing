@@ -83,9 +83,12 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({
       ref={setNodeRef}
       style={dragStyle}
       className={cn(
-        'mb-3 rounded-2xl border px-4 py-3',
-        'backdrop-blur-md shadow-sm select-none',
-        isDark ? 'bg-white/5 border-white/10' : 'bg-white/80 border-black/10',
+        'mb-3 rounded-2xl border px-4 py-3 transition-shadow',
+        'backdrop-blur-xl shadow-sm select-none',
+        isDark
+          ? 'bg-white/[0.06] border-white/10'
+          : 'bg-white/70 border-black/5 shadow-slate-200/50',
+        item.purchased && (isDark ? 'bg-white/[0.02]' : 'bg-white/40'),
       )}
     >
       {/*
@@ -105,8 +108,8 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({
           className={cn(
             'shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all',
             item.purchased
-              ? 'bg-indigo-500 border-indigo-500'
-              : isDark ? 'border-white/30 hover:border-indigo-400' : 'border-slate-300 hover:border-indigo-400'
+              ? 'bg-primary-500 border-primary-500 shadow-glow-sm'
+              : isDark ? 'border-white/30 hover:border-primary-400' : 'border-slate-300 hover:border-primary-400'
           )}
         >
           {/* El SVG del check aparece solo cuando está comprado, con animación de escala */}
@@ -147,7 +150,7 @@ export const DraggableListItem: React.FC<DraggableListItemProps> = ({
               placeholder={item.name}
               className={cn(
                 'w-full bg-transparent text-base font-medium outline-none border-b',
-                isDark ? 'text-white border-indigo-400' : 'text-slate-900 border-indigo-500'
+                isDark ? 'text-white border-primary-400' : 'text-slate-900 border-primary-500'
               )}
             />
           ) : (

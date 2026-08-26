@@ -52,13 +52,13 @@ export const SaveListModal: React.FC<SaveListModalProps> = ({
 
   // Clases base del contenedor del modal según el tema
   const modalBase = isDark
-    ? 'bg-slate-900 text-white border-white/10'
-    : 'bg-white text-slate-900 border-slate-200';
+    ? 'bg-slate-900/95 backdrop-blur-xl text-white border-white/10'
+    : 'bg-white/95 backdrop-blur-xl text-slate-900 border-slate-200';
 
   // Clases para los inputs según el tema (fondo oscuro en dark, claro en light)
   const inputClass = isDark
-    ? 'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-indigo-500'
-    : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500';
+    ? 'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 focus:border-primary-500'
+    : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-primary-500';
 
   return (
     /*
@@ -74,7 +74,7 @@ export const SaveListModal: React.FC<SaveListModalProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose} // Click fuera del modal cierra el modal
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md"
           />
 
           {/* Contenedor del modal — centrado vertical y horizontalmente */}
@@ -186,8 +186,8 @@ export const SaveListModal: React.FC<SaveListModalProps> = ({
                 className={cn(
                   'flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-colors',
                   title.trim()
-                    ? 'bg-indigo-500 hover:bg-indigo-600 text-white'
-                    : 'opacity-40 cursor-not-allowed bg-indigo-500 text-white'
+                    ? 'bg-primary-500 hover:bg-primary-600 text-white'
+                    : 'opacity-40 cursor-not-allowed bg-primary-500 text-white'
                 )}
               >
                 <Save size={16} /> Guardar

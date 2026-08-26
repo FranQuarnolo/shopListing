@@ -17,6 +17,7 @@ Aplicación de lista de compras pensada para usarse desde el celular mientras ha
 - Crear y gestionar una lista de productos en tiempo real
 - Marcar productos como comprados con auto-reorden automático
 - Editar el nombre de cualquier producto directamente en la lista
+- Compartir la lista por WhatsApp (o cualquier app) con un toque
 - Guardar el historial de compras con título y monto
 - Cargar ítems de listas anteriores evitando duplicados
 - Deshacer y rehacer cualquier cambio
@@ -59,7 +60,8 @@ shopListing/
 │   │   ├── useStorage.ts           # Hook genérico para persistir en localStorage
 │   │   └── useUndoRedo.ts          # Hook para deshacer/rehacer (stack de 50 pasos)
 │   ├── lib/
-│   │   └── utils.ts                # Función cn() para combinar clases Tailwind
+│   │   ├── utils.ts                # Función cn() para combinar clases Tailwind
+│   │   └── shareFormat.ts          # Formatea la lista como texto para compartir por WhatsApp
 │   ├── types/
 │   │   └── index.ts                # Interfaces TypeScript: ShoppingItem, SavedList, SortOrder
 │   ├── App.tsx                     # Componente raíz: layout, tema y atajos de teclado
@@ -107,6 +109,7 @@ npm run dev
 - ✅ Marcar como comprado — los comprados se mueven al final automáticamente
 - ✅ Edición inline del nombre haciendo click sobre él (Enter confirma, Escape cancela)
 - ✅ Drag & drop para reordenar ítems o arrastrarlos a la papelera para eliminarlos
+- ✅ Compartir la lista por WhatsApp — usa el panel nativo de compartir del celular (o copia al portapapeles en desktop)
 - ✅ Guardar lista al historial con título y monto total
 - ✅ Historial con búsqueda por nombre, ordenamiento y vista expandible por lista
 - ✅ Cargar ítems de una lista guardada a la lista activa (sin duplicados)
@@ -115,6 +118,14 @@ npm run dev
 - ✅ Importar listas desde un archivo JSON exportado previamente
 - ✅ Dark mode / Light mode con persistencia entre sesiones
 - ✅ Diseño Mobile First — optimizado para celular, funciona bien en PC también
+
+---
+
+## 🎨 Identidad visual
+
+Estilo "Glass Premium": paleta violeta (`primary` en `tailwind.config.js`, de `#F5F3FF` a `#2E1065`) sobre fondo con gradiente oscuro/claro, tarjetas con vidrio esmerilado (`backdrop-blur`) y glow sutil en elementos activos (`shadow-glow` / `shadow-glow-sm`). El ícono (`public/favicon.svg`) es un tile con gradiente violeta y un carrito con check, pensado para leerse bien tanto en la pestaña del navegador como en tamaños chicos.
+
+> **Nota:** Safari/iOS todavía no soporta SVG de forma confiable para el ícono de "Agregar a pantalla de inicio" (sí para la pestaña normal). Si se necesita un ícono 100% fino ahí, conviene exportar un PNG 180×180 desde `favicon.svg` (por ejemplo con [realfavicongenerator.net](https://realfavicongenerator.net)).
 
 ---
 

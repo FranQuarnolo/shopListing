@@ -34,8 +34,8 @@ export const QuickInput: React.FC<QuickInputProps> = ({ onAdd, isDark }) => {
       <div className={cn(
         'w-full max-w-2xl rounded-2xl border backdrop-blur-xl shadow-2xl',
         isDark
-          ? 'bg-black/60 border-white/10'
-          : 'bg-white/90 border-black/10'
+          ? 'bg-black/50 border-white/10 shadow-glow-sm'
+          : 'bg-white/85 border-black/5 shadow-glow-sm'
       )}>
         <div className="flex items-center gap-2 px-3 py-2">
 
@@ -63,7 +63,7 @@ export const QuickInput: React.FC<QuickInputProps> = ({ onAdd, isDark }) => {
             className={cn(
               'shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-all',
               value.trim()
-                ? 'bg-indigo-500 hover:bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
+                ? 'bg-primary-500 hover:bg-primary-600 text-white shadow-glow-sm'
                 : isDark ? 'bg-white/10 text-white/30' : 'bg-slate-100 text-slate-300'
             )}
           >

@@ -55,8 +55,8 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
     });
 
   const base = isDark
-    ? 'bg-slate-900 text-white border-white/10'
-    : 'bg-white text-slate-900 border-slate-200';
+    ? 'bg-slate-900/95 backdrop-blur-xl text-white border-white/10'
+    : 'bg-white/95 backdrop-blur-xl text-slate-900 border-slate-200';
 
   return (
     <AnimatePresence>
@@ -68,7 +68,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-30 bg-black/50 backdrop-blur-md"
           />
 
           {/* Drawer */}
@@ -95,7 +95,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
               <button
                 type="button"
                 onClick={onNewList}
-                className="flex-1 flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium py-2.5 rounded-xl transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium py-2.5 rounded-xl transition-colors"
               >
                 <Plus size={16} /> Nueva Lista
               </button>
@@ -164,7 +164,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                           className={cn(
                             'w-full text-left text-sm px-3 py-2 rounded-lg transition-colors',
                             s === sort
-                              ? 'bg-indigo-500 text-white'
+                              ? 'bg-primary-500 text-white'
                               : isDark ? 'text-white/70 hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
                           )}
                         >
@@ -206,7 +206,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                             {dayjs(list.date).format('DD/MM/YYYY')} · {list.items.length} ítems
                           </div>
                         </div>
-                        <span className={cn('text-sm font-semibold tabular-nums shrink-0', isDark ? 'text-indigo-300' : 'text-indigo-600')}>
+                        <span className={cn('text-sm font-semibold tabular-nums shrink-0', isDark ? 'text-primary-300' : 'text-primary-600')}>
                           ${list.total.toFixed(2)}
                         </span>
                         <ChevronDown
@@ -270,7 +270,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                                   <button
                                     type="button"
                                     onClick={() => onDuplicateList(list)}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-500 hover:bg-indigo-600 text-white transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-primary-500 hover:bg-primary-600 text-white transition-colors"
                                   >
                                     <Copy size={12} /> Cargar ítems
                                   </button>

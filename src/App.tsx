@@ -10,7 +10,7 @@
 
 import { useState, useEffect } from "react";
 import { Toaster } from "sonner"; // Contenedor de notificaciones toast
-import { Menu, Save, Undo2, Redo2 } from "lucide-react";
+import { Menu, Save, Undo2, Redo2, Share2 } from "lucide-react";
 import { useShoppingList } from "./hooks/useShoppingList";
 import { ShoppingList } from "./components/ShoppingList";
 import { HistoryDrawer } from "./components/HistoryDrawer";
@@ -34,6 +34,7 @@ function App() {
     duplicateList,
     exportLists,
     importLists,
+    shareList,
     undo,
     redo,
     canUndo,
@@ -83,12 +84,29 @@ function App() {
     // Contenedor raíz: ocupa toda la pantalla y define el gradiente de fondo
     <div
       className={cn(
-        "flex flex-col h-full",
+        "relative flex flex-col h-full overflow-hidden",
         isDark
-          ? "bg-gradient-to-br from-slate-900 to-indigo-950"
-          : "bg-gradient-to-br from-slate-100 to-indigo-100",
+          ? "bg-gradient-to-br from-slate-950 via-slate-900 to-violet-950"
+          : "bg-gradient-to-br from-slate-50 via-white to-violet-50",
       )}
     >
+      {/* Orbes de fondo decorativos — dan la sensación "glass premium".
+          pointer-events-none para que nunca intercepten toques/clicks. */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full blur-3xl",
+          isDark ? "bg-primary-600/20" : "bg-primary-300/30",
+        )}
+      />
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute top-1/3 -right-24 w-72 h-72 rounded-full blur-3xl",
+          isDark ? "bg-primary-500/10" : "bg-primary-200/40",
+        )}
+      />
+
       {/*
         Toaster renderiza las notificaciones toast en la pantalla.
         Se pone aquí para que esté disponible en toda la app.
@@ -108,10 +126,10 @@ function App() {
       <header
         className={cn(
           "flex items-center justify-between px-4 h-14 shrink-0",
-          "sticky top-0 z-10 backdrop-blur-md",
+          "sticky top-0 z-10 backdrop-blur-xl",
           isDark
-            ? "bg-black/40 border-b border-white/10"
-            : "bg-white/60 border-b border-black/10",
+            ? "bg-black/30 border-b border-white/10 shadow-glow-sm"
+            : "bg-white/70 border-b border-black/5 shadow-glow-sm",
         )}
       >
         {/* Botón de menú: abre el drawer del historial */}
@@ -174,6 +192,22 @@ function App() {
             <Redo2 size={18} />
           </button>
 
+          {/* Compartir lista por WhatsApp — disabled cuando la lista está vacía */}
+          <button
+            type="button"
+            onClick={shareList}
+            disabled={currentList.length === 0}
+            title="Compartir lista"
+            className={cn(
+              "p-2 rounded-xl transition-colors text-primary-400",
+              currentList.length > 0
+                ? "hover:bg-primary-400/20"
+                : "opacity-25 cursor-not-allowed",
+            )}
+          >
+            <Share2 size={20} />
+          </button>
+
           {/* Guardar lista — disabled cuando la lista está vacía */}
           <button
             type="button"
@@ -181,9 +215,9 @@ function App() {
             disabled={currentList.length === 0}
             title="Guardar lista"
             className={cn(
-              "p-2 rounded-xl transition-colors text-indigo-400",
+              "p-2 rounded-xl transition-colors text-primary-400",
               currentList.length > 0
-                ? "hover:bg-indigo-400/20"
+                ? "hover:bg-primary-400/20"
                 : "opacity-25 cursor-not-allowed",
             )}
           >
@@ -193,8 +227,11 @@ function App() {
       </header>
 
       {/* ── Contenido principal ── */}
-      {/* flex-1 + overflow-y-auto: ocupa el espacio restante y permite scroll */}
-      <main className="flex-1 overflow-y-auto">
+      {/* flex-1 + overflow-y-auto: ocupa el espacio restante y permite scroll.
+          relative z-[1]: los orbes de fondo son "position: absolute" y por reglas
+          de stacking de CSS pintarían por ENCIMA de este main si quedara sin
+          posicionar — con z-[1] se asegura que las cards queden nítidas encima. */}
+      <main className="relative z-[1] flex-1 overflow-y-auto">
         {/* max-w-2xl centra el contenido en pantallas grandes */}
         <div className="max-w-2xl mx-auto w-full">
           <ShoppingList
